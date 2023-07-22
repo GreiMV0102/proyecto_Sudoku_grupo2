@@ -14,9 +14,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-        Usuario Us1 = new Usuario();
-        Us1.datos();
+       
        
             
     }
