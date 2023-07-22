@@ -16,6 +16,8 @@ public class Usuario {
         String Nombre =JOptionPane.showInputDialog("Digite su nombre:");
         JOptionPane.showMessageDialog(null, "Hola" + Nombre);
         
+        
+        
     }
     
     

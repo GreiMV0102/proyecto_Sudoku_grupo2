@@ -17,8 +17,8 @@ public class Main {
         
         Usuario Us1 = new Usuario();
         Us1.datos();
-        
-        
+       
+            
     }
     
 }
