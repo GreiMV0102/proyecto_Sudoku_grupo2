@@ -118,38 +118,114 @@ public class Usuario {
     public void registro() {
 
         nombreCompleto = JOptionPane.showInputDialog("Digite su nombre: ");
-        if (nombreCompleto.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Digite un nombre");
-
+        while (nombreCompleto.isEmpty()) {
+            nombreCompleto = JOptionPane.showInputDialog("Digite su nombre: ");
         }
+
         correoElectronico = JOptionPane.showInputDialog("Digite su correo electronico: ");
-        if (correoElectronico.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Digite un correo electronico");
+        while (correoElectronico.isEmpty()) {
+            correoElectronico = JOptionPane.showInputDialog("Digite su correo electronico: ");
         }
-        fechaNacimiento = JOptionPane.showInputDialog("Ingrese su fecha de nacimiento(Formato: Dia/Fecha/Anio/: ");
-        if (fechaNacimiento.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Digite una fecha de nacimiento");
+        fechaNacimiento = JOptionPane.showInputDialog("Ingrese su fecha de nacimiento(Formato: Dia/Mes/Anio: ");
+        // Mientras la fecha de nacimiento esté vacía o no cumpla con el formato correcto, seguir solicitándola
+        while (fechaNacimiento.isEmpty() || !validarFormatoFecha(fechaNacimiento)) {
+            fechaNacimiento = JOptionPane.showInputDialog("Fecha de nacimiento inválida. Ingrese su fecha de nacimiento (Formato: Día/Fecha/Año): ");
         }
-        sexo = JOptionPane.showInputDialog("Genero --- M ---- F----");
-        if (sexo.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Digite un genero");
+        sexo = JOptionPane.showInputDialog("Genero"
+                + "                         \n F"
+                + "                         \n M");
+        // Mientras el género ingresado no sea "F" o "M", seguir solicitándolo
+        while (sexo == null || (!sexo.equalsIgnoreCase("F") && !sexo.equalsIgnoreCase("M"))) {
+            JOptionPane.showMessageDialog(null, "Género inválido. Debe ingresar 'F' o 'M'.");
+            sexo = JOptionPane.showInputDialog("Género: \n F \n M");
+        }
+        while (true) {
+            cedula = JOptionPane.showInputDialog("Digite su numero de cedula (Incluyendo los ceros: XXXXXXXXX):");
+            if (validarFormatoCedula(cedula)) {
+                break;
+            } else {
+                JOptionPane.showMessageDialog(null, "Formato de cedula incorrecto. Vuelva a intentarlo.");
+            }
         }
 
-        cedula = JOptionPane.showInputDialog("Digite su numero de cedula(Formato: X-XXXX-XXXX):");
-        if (cedula.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Digite un numero de cedula");
-
-        }
         usuario = JOptionPane.showInputDialog("Digite su nombre de usuario: ");
-        if (usuario.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Digite un nombre de usuario");
-
+        while (usuario.isEmpty()) {
+            usuario = JOptionPane.showInputDialog("Digite su usuario: ");
         }
-        telefono = Integer.parseInt(JOptionPane.showInputDialog("Digite su numero de telefono: "));
+        boolean formatoValido = false;
+
+        while (!formatoValido) {
+            String input = JOptionPane.showInputDialog("Digite su numero de telefono (Formato: XXXXXXXX): ");
+            if (input == null || input.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Debe ingresar un número de teléfono.");
+                continue;
+            }
+
+            try {
+                telefono = Integer.parseInt(input);
+                formatoValido = validarFormatoTelefono(telefono);
+                if (!formatoValido) {
+                    JOptionPane.showMessageDialog(null, "Formato de teléfono incorrecto. Vuelva a intentarlo.");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Debe ingresar solo dígitos numéricos.");
+            }
+        }
 
         residencia = JOptionPane.showInputDialog("Digite su lugar de residencia(Formato: Canton/Provincia/Pais): ");
-        if (residencia.isEmpty())
+
+        if (residencia.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Digite una residencia");
-        
+            while (true) {
+                residencia = JOptionPane.showInputDialog("Digite su lugar de residencia (Formato: Canton/Provincia/Pais): ");
+                if (residencia == null || residencia.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Debe ingresar el lugar de residencia.");
+                } else if (validarFormatoResidencia(residencia)) {
+
+                    break;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Formato de residencia incorrecto. Vuelva a intentarlo.");
+
+                }
+            }
+        }
+    }
+
+// Validar Formato de la Fecha
+    public static boolean validarFormatoFecha(String fecha) {
+        // Expresión regular para el formato de fecha "Día/Fecha/Año"
+        String regex = "^\\d{1,2}/\\d{1,2}/\\d{4}$";
+
+        // Verificar si la fecha coincide con el formato
+        return fecha.matches(regex);
+    }
+
+    public static boolean validarFormatoCedula(String cedula) {
+        // Asegúrate de que la cedula tenga exactamente 9 caracteres
+        if (cedula == null || cedula.length() != 9) {
+            return false;
+        }
+
+        // Verifica que todos los caracteres sean dígitos numéricos
+        for (int i = 0; i < 9; i++) {
+            char ch = cedula.charAt(i);
+            if (!Character.isDigit(ch)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean validarFormatoTelefono(int telefono) {
+        // Asegúrate de que el número de teléfono tenga exactamente 8 dígitos
+        String telefonoStr = String.valueOf(telefono);
+        return telefonoStr.length() == 8;
+    }
+
+    public static boolean validarFormatoResidencia(String residencia) {
+        // Verifica que la residencia tenga el formato correcto (Canton/Provincia/Pais)
+        String[] partes = residencia.split("/");
+        return partes.length == 3;
     }
 }
