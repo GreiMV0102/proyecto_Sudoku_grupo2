@@ -10,6 +10,7 @@ public class Usuario {
     private String sexo;
     private String cedula;
     private String usuario;
+    private String contrasena;
     private int telefono;
     private String residencia;
 
@@ -22,6 +23,7 @@ public class Usuario {
         this.usuario = usuario;
         this.telefono = telefono;
         this.residencia = residencia;
+        this.contrasena = contrasena;
     }
 
     public String getNombreCompleto() {
@@ -70,6 +72,14 @@ public class Usuario {
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
     public int getTelefono() {
@@ -152,6 +162,12 @@ public class Usuario {
         while (usuario.isEmpty()) {
             usuario = JOptionPane.showInputDialog("Digite su usuario: ");
         }
+        
+        contrasena = JOptionPane.showInputDialog("Digite una contrasena: ");
+        while (contrasena.isEmpty()) {
+            contrasena = JOptionPane.showInputDialog("Digite su contrasena: ");
+        }
+        
         boolean formatoValido = false;
 
         while (!formatoValido) {
