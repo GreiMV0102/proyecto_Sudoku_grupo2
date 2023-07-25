@@ -1,12 +1,14 @@
 package com.proyecto;
+
 import javax.swing.JOptionPane;
+
 public class Usuario {
-    
+
     private String nombreCompleto;
     private String correoElectronico;
-    private String fechaNacimiemto;
-    private char sexo;
-    private int cedula;
+    private String fechaNacimiento;
+    private String sexo;
+    private String cedula;
     private String usuario;
     private int telefono;
     private String residencia;
@@ -14,7 +16,7 @@ public class Usuario {
     public Usuario() {
         this.nombreCompleto = nombreCompleto;
         this.correoElectronico = correoElectronico;
-        this.fechaNacimiemto = fechaNacimiemto;
+        this.fechaNacimiento = fechaNacimiento;
         this.sexo = sexo;
         this.cedula = cedula;
         this.usuario = usuario;
@@ -39,26 +41,26 @@ public class Usuario {
     }
 
     public String getFechaNacimiemto() {
-        return fechaNacimiemto;
+        return fechaNacimiento;
     }
 
     public void setFechaNacimiemto(String fechaNacimiento) {
-        this.fechaNacimiemto = fechaNacimiento;
+        this.fechaNacimiento = fechaNacimiento;
     }
 
-    public char getSexo() {
+    public String getSexo() {
         return sexo;
     }
 
-    public int getCedula() {
+    public String getCedula() {
         return cedula;
     }
 
-    public void setCedula(int cedula) {
+    public void setCedula(String cedula) {
         this.cedula = cedula;
     }
 
-    public void setSexo(char sexo) {
+    public void setSexo(String sexo) {
         this.sexo = sexo;
     }
 
@@ -86,53 +88,68 @@ public class Usuario {
         this.residencia = residencia;
     }
 
-    public void datosDeUsuario() {
-        do {
-            nombreCompleto = JOptionPane.showInputDialog("Ingrese su nombre completo");
-            if (nombreCompleto.equals(" ") || nombreCompleto.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Nombre invalido\nIntente nuevamente");
-            } else {
-                JOptionPane.showMessageDialog(null, "Nombre ingresado correctamente");
-            }
-            
-            correoElectronico = JOptionPane.showInputDialog("Ingrese su correo electronico");
-            if(correoElectronico.endsWith(" ") || correoElectronico.isEmpty()){
-                JOptionPane.showMessageDialog(null, "Correo electronico invalido\nIntente nuevamente");
-            }else{
-                JOptionPane.showMessageDialog(null, "Correo electronico ingresado correctamente");
-            }
-        } while (nombreCompleto.isEmpty() && correoElectronico.isEmpty());
-        
-        
-        while (cedula <= 0) {
-            cedula = Integer.parseInt(JOptionPane.showInputDialog("Ingrese su numero de identificacion"));
-            if (cedula <= 0) {
-                JOptionPane.showMessageDialog(null, "Identificacion invalida\nIntente nuevamente");
-            } else {
-                JOptionPane.showMessageDialog(null, "Identificacion valida");
-                break;
-            }
-        }
-        
-        int dia= 0, mes= 0, anio= 0;
-        
-        JOptionPane.showMessageDialog(null, "Digite su fecha de nacimiento a continuacion");
-        do{
-            dia = Integer.parseInt(JOptionPane.showInputDialog("Dia"));
-            mes = Integer.parseInt(JOptionPane.showInputDialog("Mes"));
-            anio = Integer.parseInt(JOptionPane.showInputDialog("Anio"));
-            
-            fechaNacimiemto = +dia+" / "+mes+" / "+anio;
+    //Nuevo metodo de menu.
+    public void menu() {
 
-            if(dia <= 31 && mes <= 12 && anio > 0){
-                JOptionPane.showMessageDialog(null,"Fecha de nacimiento ingresado correctamente\n "+dia+" / "+mes+" / "+anio);
-                break;
-            }else{
-                JOptionPane.showMessageDialog(null, "Fecha de nacimiento incorrecta\nFavor intente nuevamente");
+        char opcion = ' ';
+
+        do {
+
+            //Generacion del menu de opciones principal.        
+            opcion = JOptionPane.showInputDialog("*****BIENVENIDO*****"
+                    + "\nA. Registro(Necesario para poder jugar)"
+                    + "\nB. Jugar"
+                    + "\nC. Reportes"
+                    + "\nS. Salir").toUpperCase().charAt(0);
+
+            //Case Switch de la primera opcion de registro.
+            switch (opcion) {
+
+                case 'A':
+                    JOptionPane.showMessageDialog(null, "*****Bienvenido a Sudoku!*****");
+                    this.registro();
             }
-            
-        }while(dia <= 31 || mes <= 12 || anio > 0);
+
+        } while (opcion != 'S');
+
     }
-    
-    
+
+    //Metodo de Registro
+    public void registro() {
+
+        nombreCompleto = JOptionPane.showInputDialog("Digite su nombre: ");
+        if (nombreCompleto.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Digite un nombre");
+
+        }
+        correoElectronico = JOptionPane.showInputDialog("Digite su correo electronico: ");
+        if (correoElectronico.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Digite un correo electronico");
+        }
+        fechaNacimiento = JOptionPane.showInputDialog("Ingrese su fecha de nacimiento(Formato: Dia/Fecha/Anio/: ");
+        if (fechaNacimiento.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Digite una fecha de nacimiento");
+        }
+        sexo = JOptionPane.showInputDialog("Genero --- M ---- F----");
+        if (sexo.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Digite un genero");
+        }
+
+        cedula = JOptionPane.showInputDialog("Digite su numero de cedula(Formato: X-XXXX-XXXX):");
+        if (cedula.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Digite un numero de cedula");
+
+        }
+        usuario = JOptionPane.showInputDialog("Digite su nombre de usuario: ");
+        if (usuario.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Digite un nombre de usuario");
+
+        }
+        telefono = Integer.parseInt(JOptionPane.showInputDialog("Digite su numero de telefono: "));
+
+        residencia = JOptionPane.showInputDialog("Digite su lugar de residencia(Formato: Canton/Provincia/Pais): ");
+        if (residencia.isEmpty())
+            JOptionPane.showMessageDialog(null, "Digite una residencia");
+        
+    }
 }
