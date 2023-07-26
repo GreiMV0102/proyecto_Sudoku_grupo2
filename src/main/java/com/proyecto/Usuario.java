@@ -4,10 +4,13 @@ import javax.swing.JOptionPane;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.*;
 
 public class Usuario {
 
+    private String NOMBRE_ARCHIVO = "datosUsuario.txt";
     private String nombreCompleto;
     private String correoElectronico;
     private String fechaNacimiento;
@@ -28,6 +31,15 @@ public class Usuario {
         this.telefono = telefono;
         this.residencia = residencia;
         this.contrasena = contrasena;
+        this.NOMBRE_ARCHIVO = NOMBRE_ARCHIVO;
+    }
+
+    public String getNOMBRE_ARCHIVO() {
+        return NOMBRE_ARCHIVO;
+    }
+
+    public void setNOMBRE_ARCHIVO(String NOMBRE_ARCHIVO) {
+        this.NOMBRE_ARCHIVO = NOMBRE_ARCHIVO;
     }
 
     public String getNombreCompleto() {
@@ -112,8 +124,9 @@ public class Usuario {
             //Generacion del menu de opciones principal.        
             opcion = JOptionPane.showInputDialog("*****BIENVENIDO*****"
                     + "\nA. Registro(Necesario para poder jugar)"
-                    + "\nB. Jugar"
-                    + "\nC. Reportes"
+                    + "\nB.  Login(Para usuarios previamente registrados)"
+                    + "\nC. Jugar"
+                    + "\nD. Reportes"
                     + "\nS. Salir").toUpperCase().charAt(0);
 
             //Case Switch de la primera opcion de registro.
@@ -122,6 +135,10 @@ public class Usuario {
                 case 'A':
                     JOptionPane.showMessageDialog(null, "*****Bienvenido a Sudoku!*****");
                     this.registro();
+                    break;
+                case 'B':
+                    JOptionPane.showMessageDialog(null, "*****BIENVENIDO*****");
+                    this.inicioSesion();
             }
 
         } while (opcion != 'S');
@@ -207,33 +224,33 @@ public class Usuario {
                     JOptionPane.showMessageDialog(null, "Formato de residencia incorrecto. Vuelva a intentarlo.");
 
                 }
+
+                
             }
         }
         //Escritura de los datos en .txt
+                String[] inputs = new String[8];
 
-        String[] inputs = new String[8];
+                inputs[0] = "Nombre Completo: " + nombreCompleto;
+                inputs[1] = "Correo Electronico: " + correoElectronico;
+                inputs[2] = "Fecha de Nacimiento: " + fechaNacimiento;
+                inputs[3] = "Genero: " + sexo;
+                inputs[4] = "Usuario: " + usuario;
+                inputs[5] = "Contrasena: " + contrasena;
+                inputs[6] = "Telefono: " + telefono;
+                inputs[7] = "Lugar de Residencia: " + residencia;
 
-        inputs[0] = "Nombre Completo: " + nombreCompleto;
-        inputs[1] = "Correo Electronico: " + correoElectronico;
-        inputs[2] = "Fecha de Nacimiento: " + fechaNacimiento;
-        inputs[3] = "Genero: " + sexo;
-        inputs[4] = "Usuario: " + usuario;
-        inputs[5] = "Contrasena: " + contrasena;
-        inputs[6] = "Telefono: " + telefono;
-        inputs[7] = "Lugar de Residencia: " + residencia;
+                
 
-        String nombreArchivo = "datosUsuario.txt";
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))) {
-            for (String dato : inputs) {
-                writer.write(dato);
-                writer.newLine(); // Agregar un salto de línea después de cada input
-            }
-            JOptionPane.showMessageDialog(null, "Datos guardados correctamente en " + nombreArchivo);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error al escribir en el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(NOMBRE_ARCHIVO))) {
+                    for (String dato : inputs) {
+                        writer.write(dato);
+                        writer.newLine(); // Agregar un salto de línea después de cada input
+                    }
+                    JOptionPane.showMessageDialog(null, "Datos guardados correctamente en " + NOMBRE_ARCHIVO);
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null, "Error al escribir en el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
     }
 
 // Validar Formato de la Fecha
@@ -274,4 +291,34 @@ public class Usuario {
         return partes.length == 3;
     }
 
+    public void inicioSesion() {
+        String usuarioIngresado = JOptionPane.showInputDialog("Ingrese su nombre de usuario: ");
+        String contrasenaIngresada = JOptionPane.showInputDialog("Ingrese su contraseña: ");
+        boolean usuarioValido = false;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(NOMBRE_ARCHIVO))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                String[] datos = linea.split(": ");
+                if (datos.length == 2) {
+                    String nombreDato = datos[0];
+                    String valorDato = datos[1];
+                    if (nombreDato.equals("Usuario") && valorDato.equals(usuarioIngresado)) {
+                        usuarioValido = true;
+                    }
+                    if (nombreDato.equals("Contrasena") && valorDato.equals(contrasenaIngresada)) {
+                        if (usuarioValido) {
+                            JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso.");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "El nombre de usuario es correcto, pero la contraseña es incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        return;
+                    }
+                }
+            }
+            JOptionPane.showMessageDialog(null, "Nombre de usuario y/o contraseña incorrectos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al leer el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }
