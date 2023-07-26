@@ -225,32 +225,29 @@ public class Usuario {
 
                 }
 
-                
             }
         }
         //Escritura de los datos en .txt
-                String[] inputs = new String[8];
+        String[] inputs = new String[8];
 
-                inputs[0] = "Nombre Completo: " + nombreCompleto;
-                inputs[1] = "Correo Electronico: " + correoElectronico;
-                inputs[2] = "Fecha de Nacimiento: " + fechaNacimiento;
-                inputs[3] = "Genero: " + sexo;
-                inputs[4] = "Usuario: " + usuario;
-                inputs[5] = "Contrasena: " + contrasena;
-                inputs[6] = "Telefono: " + telefono;
-                inputs[7] = "Lugar de Residencia: " + residencia;
+        inputs[0] = "Nombre Completo: " + nombreCompleto;
+        inputs[1] = "Correo Electronico: " + correoElectronico;
+        inputs[2] = "Fecha de Nacimiento: " + fechaNacimiento;
+        inputs[3] = "Genero: " + sexo;
+        inputs[4] = "Usuario: " + usuario;
+        inputs[5] = "Contrasena: " + contrasena;
+        inputs[6] = "Telefono: " + telefono;
+        inputs[7] = "Lugar de Residencia: " + residencia;
 
-                
-
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(NOMBRE_ARCHIVO))) {
-                    for (String dato : inputs) {
-                        writer.write(dato);
-                        writer.newLine(); // Agregar un salto de línea después de cada input
-                    }
-                    JOptionPane.showMessageDialog(null, "Datos guardados correctamente en " + NOMBRE_ARCHIVO);
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(null, "Error al escribir en el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(NOMBRE_ARCHIVO))) {
+            for (String dato : inputs) {
+                writer.write(dato);
+                writer.newLine(); // Agregar un salto de línea después de cada input
+            }
+            JOptionPane.showMessageDialog(null, "Datos guardados correctamente en " + NOMBRE_ARCHIVO);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al escribir en el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 // Validar Formato de la Fecha
@@ -309,6 +306,23 @@ public class Usuario {
                     if (nombreDato.equals("Contrasena") && valorDato.equals(contrasenaIngresada)) {
                         if (usuarioValido) {
                             JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso.");
+                             
+                            //A partir de aqui esta la opcion de eliminar los datos del usuario ya registrado (PEQUEÑA PRUEBA.......)
+                            char decision = JOptionPane.showInputDialog("Eliminar Datos del Usuario\nS. Si\nN. No").toUpperCase().charAt(0);
+                            if (decision == 'S') {
+                                try {
+                                    FileWriter archivoVacio = new FileWriter(NOMBRE_ARCHIVO);
+                                    archivoVacio.write("");
+
+                                    archivoVacio.close();
+
+                                    JOptionPane.showMessageDialog(null, "Datos borrados correctamente", "Borrado", JOptionPane.INFORMATION_MESSAGE);
+
+                                } catch (IOException e) {
+                                    JOptionPane.showMessageDialog(null, "Error al intentar borrar los datos", "Error", JOptionPane.ERROR_MESSAGE);
+
+                                }
+                            }
                         } else {
                             JOptionPane.showMessageDialog(null, "El nombre de usuario es correcto, pero la contraseña es incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
                         }
