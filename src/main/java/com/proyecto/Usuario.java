@@ -1,6 +1,10 @@
 package com.proyecto;
 
 import javax.swing.JOptionPane;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
 
 public class Usuario {
 
@@ -162,12 +166,12 @@ public class Usuario {
         while (usuario.isEmpty()) {
             usuario = JOptionPane.showInputDialog("Digite su usuario: ");
         }
-        
+
         contrasena = JOptionPane.showInputDialog("Digite una contrasena: ");
         while (contrasena.isEmpty()) {
             contrasena = JOptionPane.showInputDialog("Digite su contrasena: ");
         }
-        
+
         boolean formatoValido = false;
 
         while (!formatoValido) {
@@ -205,6 +209,31 @@ public class Usuario {
                 }
             }
         }
+        //Escritura de los datos en .txt
+
+        String[] inputs = new String[8];
+
+        inputs[0] = "Nombre Completo: " + nombreCompleto;
+        inputs[1] = "Correo Electronico: " + correoElectronico;
+        inputs[2] = "Fecha de Nacimiento: " + fechaNacimiento;
+        inputs[3] = "Genero: " + sexo;
+        inputs[4] = "Usuario: " + usuario;
+        inputs[5] = "Contrasena: " + contrasena;
+        inputs[6] = "Telefono: " + telefono;
+        inputs[7] = "Lugar de Residencia: " + residencia;
+
+        String nombreArchivo = "datosUsuario.txt";
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))) {
+            for (String dato : inputs) {
+                writer.write(dato);
+                writer.newLine(); // Agregar un salto de línea después de cada input
+            }
+            JOptionPane.showMessageDialog(null, "Datos guardados correctamente en " + nombreArchivo);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al escribir en el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
 
 // Validar Formato de la Fecha
@@ -244,4 +273,5 @@ public class Usuario {
         String[] partes = residencia.split("/");
         return partes.length == 3;
     }
+
 }
