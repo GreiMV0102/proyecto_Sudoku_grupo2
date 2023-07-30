@@ -20,6 +20,8 @@ public class Usuario {
     private String contrasena;
     private int telefono;
     private String residencia;
+    
+    helper h = new helper();
 
     public Usuario() {
         this.nombreCompleto = nombreCompleto;
@@ -122,22 +124,22 @@ public class Usuario {
         do {
 
             //Generacion del menu de opciones principal.        
-            opcion = JOptionPane.showInputDialog("*****BIENVENIDO*****"
+            opcion = h.recibeChar("*****BIENVENIDO*****"
                     + "\nA. Registro(Necesario para poder jugar)"
                     + "\nB.  Login(Para usuarios previamente registrados)"
                     + "\nC. Jugar"
                     + "\nD. Reportes"
-                    + "\nS. Salir").toUpperCase().charAt(0);
+                    + "\nS. Salir");
 
             //Case Switch de la primera opcion de registro.
             switch (opcion) {
 
                 case 'A':
-                    JOptionPane.showMessageDialog(null, "*****Bienvenido a Sudoku!*****");
+                    h.imprimeMensaje( "*****Bienvenido a Sudoku!*****");
                     this.registro();
                     break;
                 case 'B':
-                    JOptionPane.showMessageDialog(null, "*****BIENVENIDO*****");
+                    h.imprimeMensaje("*****BIENVENIDO*****");
                     this.inicioSesion();
             }
 
@@ -148,80 +150,80 @@ public class Usuario {
     //Metodo de Registro
     public void registro() {
 
-        nombreCompleto = JOptionPane.showInputDialog("Digite su nombre: ");
+        nombreCompleto = h.recibeString("Digite su nombre: ");
         while (nombreCompleto.isEmpty()) {
-            nombreCompleto = JOptionPane.showInputDialog("Digite su nombre: ");
+            nombreCompleto = h.recibeString("Digite su nombre: ");
         }
 
-        correoElectronico = JOptionPane.showInputDialog("Digite su correo electronico: ");
+        correoElectronico = h.recibeString("Digite su correo electronico: ");
         while (correoElectronico.isEmpty()) {
-            correoElectronico = JOptionPane.showInputDialog("Digite su correo electronico: ");
+            correoElectronico = h.recibeString("Digite su correo electronico: ");
         }
-        fechaNacimiento = JOptionPane.showInputDialog("Ingrese su fecha de nacimiento(Formato: Dia/Mes/Anio: ");
+        fechaNacimiento = h.recibeString("Ingrese su fecha de nacimiento(Formato: Dia/Mes/Anio: ");
         // Mientras la fecha de nacimiento esté vacía o no cumpla con el formato correcto, seguir solicitándola
         while (fechaNacimiento.isEmpty() || !validarFormatoFecha(fechaNacimiento)) {
-            fechaNacimiento = JOptionPane.showInputDialog("Fecha de nacimiento inválida. Ingrese su fecha de nacimiento (Formato: Día/Fecha/Año): ");
+            fechaNacimiento = h.recibeString("Fecha de nacimiento inválida. Ingrese su fecha de nacimiento (Formato: Día/Fecha/Año): ");
         }
-        sexo = JOptionPane.showInputDialog("Genero"
+        sexo = h.recibeString("Genero"
                 + "                         \n F"
                 + "                         \n M");
         // Mientras el género ingresado no sea "F" o "M", seguir solicitándolo
         while (sexo == null || (!sexo.equalsIgnoreCase("F") && !sexo.equalsIgnoreCase("M"))) {
-            JOptionPane.showMessageDialog(null, "Género inválido. Debe ingresar 'F' o 'M'.");
-            sexo = JOptionPane.showInputDialog("Género: \n F \n M");
+            h.imprimeMensaje("Género inválido. Debe ingresar 'F' o 'M'.");
+            sexo = h.recibeString("Género: \n F \n M");
         }
         while (true) {
-            cedula = JOptionPane.showInputDialog("Digite su numero de cedula (Incluyendo los ceros: XXXXXXXXX):");
+            cedula = h.recibeString("Digite su numero de cedula (Incluyendo los ceros: XXXXXXXXX):");
             if (validarFormatoCedula(cedula)) {
                 break;
             } else {
-                JOptionPane.showMessageDialog(null, "Formato de cedula incorrecto. Vuelva a intentarlo.");
+                h.imprimeMensaje("Formato de cedula incorrecto. Vuelva a intentarlo.");
             }
         }
 
-        usuario = JOptionPane.showInputDialog("Digite su nombre de usuario: ");
+        usuario = h.recibeString("Digite su nombre de usuario: ");
         while (usuario.isEmpty()) {
-            usuario = JOptionPane.showInputDialog("Digite su usuario: ");
+            usuario = h.recibeString("Digite su usuario: ");
         }
 
-        contrasena = JOptionPane.showInputDialog("Digite una contrasena: ");
+        contrasena = h.recibeString("Digite una contrasena: ");
         while (contrasena.isEmpty()) {
-            contrasena = JOptionPane.showInputDialog("Digite su contrasena: ");
+            contrasena = h.recibeString("Digite su contrasena: ");
         }
 
         boolean formatoValido = false;
 
         while (!formatoValido) {
-            String input = JOptionPane.showInputDialog("Digite su numero de telefono (Formato: XXXXXXXX): ");
+            String input = h.recibeString("Digite su numero de telefono (Formato: XXXXXXXX): ");
             if (input == null || input.trim().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Debe ingresar un número de teléfono.");
+                h.imprimeMensaje("Debe ingresar un número de teléfono.");
                 continue;
             }
 
             try {
-                telefono = Integer.parseInt(input);
+                telefono = h.recibeInt(input);
                 formatoValido = validarFormatoTelefono(telefono);
                 if (!formatoValido) {
-                    JOptionPane.showMessageDialog(null, "Formato de teléfono incorrecto. Vuelva a intentarlo.");
+                    h.imprimeMensaje("Formato de teléfono incorrecto. Vuelva a intentarlo.");
                 }
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Debe ingresar solo dígitos numéricos.");
+                h.imprimeMensaje("Debe ingresar solo dígitos numéricos.");
             }
         }
 
-        residencia = JOptionPane.showInputDialog("Digite su lugar de residencia(Formato: Canton/Provincia/Pais): ");
+        residencia = h.recibeString("Digite su lugar de residencia(Formato: Canton/Provincia/Pais): ");
 
         if (residencia.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Digite una residencia");
+            h.imprimeMensaje("Digite una residencia");
             while (true) {
-                residencia = JOptionPane.showInputDialog("Digite su lugar de residencia (Formato: Canton/Provincia/Pais): ");
+                residencia = h.recibeString("Digite su lugar de residencia (Formato: Canton/Provincia/Pais): ");
                 if (residencia == null || residencia.trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Debe ingresar el lugar de residencia.");
+                    h.imprimeMensaje("Debe ingresar el lugar de residencia.");
                 } else if (validarFormatoResidencia(residencia)) {
 
                     break;
                 } else {
-                    JOptionPane.showMessageDialog(null, "Formato de residencia incorrecto. Vuelva a intentarlo.");
+                    h.imprimeMensaje("Formato de residencia incorrecto. Vuelva a intentarlo.");
 
                 }
 
@@ -244,7 +246,7 @@ public class Usuario {
                 writer.write(dato);
                 writer.newLine(); // Agregar un salto de línea después de cada input
             }
-            JOptionPane.showMessageDialog(null, "Datos guardados correctamente en " + NOMBRE_ARCHIVO);
+            h.imprimeMensaje("Datos guardados correctamente en " + NOMBRE_ARCHIVO);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Error al escribir en el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -289,8 +291,8 @@ public class Usuario {
     }
 
     public void inicioSesion() {
-        String usuarioIngresado = JOptionPane.showInputDialog("Ingrese su nombre de usuario: ");
-        String contrasenaIngresada = JOptionPane.showInputDialog("Ingrese su contraseña: ");
+        String usuarioIngresado = h.recibeString("Ingrese su nombre de usuario: ");
+        String contrasenaIngresada = h.recibeString("Ingrese su contraseña: ");
         boolean usuarioValido = false;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(NOMBRE_ARCHIVO))) {
@@ -305,10 +307,10 @@ public class Usuario {
                     }
                     if (nombreDato.equals("Contrasena") && valorDato.equals(contrasenaIngresada)) {
                         if (usuarioValido) {
-                            JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso.");
+                            h.imprimeMensaje("Inicio de sesión exitoso.");
                              
                             //A partir de aqui esta la opcion de eliminar los datos del usuario ya registrado (PEQUEÑA PRUEBA.......)
-                            char decision = JOptionPane.showInputDialog("Eliminar Datos del Usuario\nS. Si\nN. No").toUpperCase().charAt(0);
+                            char decision = h.recibeString("Eliminar Datos del Usuario\nS. Si\nN. No").toUpperCase().charAt(0);
                             if (decision == 'S') {
                                 try {
                                     FileWriter archivoVacio = new FileWriter(NOMBRE_ARCHIVO);
