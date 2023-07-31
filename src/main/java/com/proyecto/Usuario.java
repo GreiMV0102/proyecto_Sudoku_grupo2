@@ -141,6 +141,13 @@ public class Usuario {
                 case 'B':
                     h.imprimeMensaje("*****BIENVENIDO*****");
                     this.inicioSesion();
+                case  'C':
+                    Juego sudoku = new Juego();
+                    sudoku.mostrarSudoku();
+                    
+                    
+               
+                    
             }
 
         } while (opcion != 'S');
