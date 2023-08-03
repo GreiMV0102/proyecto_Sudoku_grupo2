@@ -1,7 +1,7 @@
 
 package com.proyecto;
 
-//coemntario222222
+
 public class Juego {
  
      private int sudoku [][];
