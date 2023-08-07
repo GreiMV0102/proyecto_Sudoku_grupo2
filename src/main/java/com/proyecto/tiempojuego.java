@@ -1,20 +1,23 @@
-
 package com.proyecto;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-public class tiempojuego {
-     private LocalDateTime fecha;
-    private String nivel;
-    private String tiempo;
+public class TiempoJuego {
+    private LocalDateTime fecha;
+    private Usuario usuario;
+    private Nivel nivel;    
+    private long tiempoEnSegundos;
 
-    public tiempojuego(LocalDateTime fecha, String nivel, String tiempo) {
-        this.fecha = fecha;
+    public TiempoJuego(Usuario usuario, Nivel nivel, long tiempoEnSegundos) {
+        this.fecha = LocalDateTime.now();
+        this.usuario = usuario;
         this.nivel = nivel;
-        this.tiempo = tiempo;
+        this.tiempoEnSegundos = tiempoEnSegundos;
     }
 
     // Getters y Setters
+
     public LocalDateTime getFecha() {
         return fecha;
     }
@@ -23,26 +26,40 @@ public class tiempojuego {
         this.fecha = fecha;
     }
 
-    public String getNivel() {
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Nivel getNivel() {
         return nivel;
     }
 
-    public void setNivel(String nivel) {
+    public void setNivel(Nivel nivel) {
         this.nivel = nivel;
     }
 
-    public String getTiempo() {
-        return tiempo;
+    public long getTiempoEnSegundos() {
+        return tiempoEnSegundos;
     }
 
-    public void setTiempo(String tiempo) {
-        this.tiempo = tiempo;
+    public void setTiempoEnSegundos(long tiempoEnSegundos) {
+        this.tiempoEnSegundos = tiempoEnSegundos;
     }
 
-    
+    // Obtener la fecha y hora actual
     public static LocalDateTime obtenerFechaHoraActual() {
         return LocalDateTime.now();
     }
 
-    
+    // Método para mostrar la información del tiempo de juego 
+    @Override
+    public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String formattedDate = fecha.format(formatter);
+        return "Usuario: " + usuario.getNombreCompleto() + ", Nivel: " + nivel.getNombre() + ", Tiempo: " + tiempoEnSegundos + " segundos, Fecha: " + formattedDate;
+    }
 }
