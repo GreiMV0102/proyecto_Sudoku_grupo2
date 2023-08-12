@@ -8,7 +8,13 @@ public class TiempoJuego {
     private Usuario usuario;
     private Nivel nivel;    
     private long tiempoEnSegundos;
-
+    
+    
+    
+    
+    
+    
+    
     public TiempoJuego(Usuario usuario, Nivel nivel, long tiempoEnSegundos) {
         this.fecha = LocalDateTime.now();
         this.usuario = usuario;

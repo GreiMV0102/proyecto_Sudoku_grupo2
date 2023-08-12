@@ -10,7 +10,6 @@ import java.io.*;
 
 public class Usuario {
 
-    private String NOMBRE_ARCHIVO = "datosUsuario.txt";
     private String nombreCompleto;
     private String correoElectronico;
     private String fechaNacimiento;
@@ -20,7 +19,7 @@ public class Usuario {
     private String contrasena;
     private int telefono;
     private String residencia;
-    
+
     helper h = new helper();
 
     public Usuario() {
@@ -33,15 +32,11 @@ public class Usuario {
         this.telefono = telefono;
         this.residencia = residencia;
         this.contrasena = contrasena;
-        this.NOMBRE_ARCHIVO = NOMBRE_ARCHIVO;
+
     }
 
-    public String getNOMBRE_ARCHIVO() {
-        return NOMBRE_ARCHIVO;
-    }
-
-    public void setNOMBRE_ARCHIVO(String NOMBRE_ARCHIVO) {
-        this.NOMBRE_ARCHIVO = NOMBRE_ARCHIVO;
+    private Usuario(String nombreCompleto, String correoElectronico, int telefono, String fechaNacimiento, String cedula, String sexo, String residencia, String usuario, String contrasena) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public String getNombreCompleto() {
@@ -116,6 +111,11 @@ public class Usuario {
         this.residencia = residencia;
     }
 
+    @Override
+    public String toString() {
+        return nombreCompleto + "\t" + correoElectronico + "\t" + fechaNacimiento + "\t" + sexo + "\t" + cedula + "\t" + usuario + "\t" + contrasena + "\t" + telefono + "\t" + residencia;
+    }
+
     //Nuevo metodo de menu.
     public void menu() {
 
@@ -125,29 +125,27 @@ public class Usuario {
 
             //Generacion del menu de opciones principal.        
             opcion = h.recibeChar("*****BIENVENIDO*****"
-                    + "\nA. Registro(Necesario para poder jugar)"
-                    + "\nB.  Login(Para usuarios previamente registrados)"
-                    + "\nC. Jugar"
-                    + "\nD. Reportes"
+                    + "\nA. Creacion y Modificacion de Usuarios"
+                    + "\nB. Jugar"
+                    + "\nC. Reportes"
                     + "\nS. Salir");
 
             //Case Switch de la primera opcion de registro.
             switch (opcion) {
 
                 case 'A':
-                    h.imprimeMensaje( "*****Bienvenido a Sudoku!*****");
-                    this.registro();
+                    h.imprimeMensaje("*****Bienvenido a Sudoku!*****");
+                    this.menuUsuario();
                     break;
                 case 'B':
-                    h.imprimeMensaje("*****BIENVENIDO*****");
-                    this.inicioSesion();
-                case  'C':
+
+                    break;
+
+                case 'C':
                     Juego sudoku = new Juego();
                     sudoku.mostrarSudoku();
-                    
-                    
-               
-                    
+                    break;
+
             }
 
         } while (opcion != 'S');
@@ -155,8 +153,73 @@ public class Usuario {
     }
 
     //Metodo de Registro
-    public void registro() {
+    public void menuUsuario() {
+        Usuario usuarios[] = new Usuario[0];
+        int poscUsuario = 0;
+        Usuario U = new Usuario();
+        boolean listaUsuario = false;
+        char opcion = ' ';
 
+        do {
+
+            opcion = h.recibeChar("*****BIENVENIDO*****"
+                    + "\nA. Generar lista de Usuarios"
+                    + "\nB. Agregar Usuario"
+                    + "\nC. Modificar Usuario"
+                    + "\nD. Eliminar Usuario"
+                    + "\nE. Buscar Usuario"
+                    + "\nF. Listar Usuario"
+                    + "\nG. Ver Juegos"//Tentativo
+
+                    + "\nS. Volver");
+
+            switch (opcion) {
+
+                case 'A':
+                    usuarios = U.generarListaUsuarios();
+                    listaUsuario = true;
+                    break;
+
+                case 'B':
+                    if (listaUsuario) {
+                      if (poscUsuario < usuarios.length)  {
+                      poscUsuario = U.agregarUsuario(usuarios, poscUsuario);
+                      h.imprimeMensaje("Usuario Agregado con Exito.");
+                    }else
+                          h.imprimeMensaje("La lista de Usuarios se encuentra llena.");
+                          
+                    }else
+                        h.imprimeMensaje("Debe generar primero la lista de Usuarios.");
+                    break;
+
+                case 'C':
+
+                    break;
+
+                case 'D':
+
+                    break;
+                case 'E':
+
+                    break;
+
+                case 'F':
+
+                    break;
+                case 'G':
+
+                    break;
+                case 'S':
+
+                    break;
+            }
+
+        } while (opcion != 'S');
+    }
+
+    public int agregarUsuario(Usuario usuarios[], int poscUsuario) {
+        
+        
         nombreCompleto = h.recibeString("Digite su nombre: ");
         while (nombreCompleto.isEmpty()) {
             nombreCompleto = h.recibeString("Digite su nombre: ");
@@ -198,68 +261,24 @@ public class Usuario {
             contrasena = h.recibeString("Digite su contrasena: ");
         }
 
-        boolean formatoValido = false;
-
-        while (!formatoValido) {
-            String input = h.recibeString("Digite su numero de telefono (Formato: XXXXXXXX): ");
-            if (input == null || input.trim().isEmpty()) {
-                h.imprimeMensaje("Debe ingresar un número de teléfono.");
-                continue;
-            }
-
-            try {
-                telefono = h.recibeInt(input);
-                formatoValido = validarFormatoTelefono(telefono);
-                if (!formatoValido) {
-                    h.imprimeMensaje("Formato de teléfono incorrecto. Vuelva a intentarlo.");
-                }
-            } catch (NumberFormatException e) {
-                h.imprimeMensaje("Debe ingresar solo dígitos numéricos.");
-            }
+        telefono = h.recibeInt("Digite su numero de telefono: ");
+        while (contrasena.isEmpty()) {
+            contrasena = h.recibeString("Digite su contrasena: ");
         }
-
+        
         residencia = h.recibeString("Digite su lugar de residencia(Formato: Canton/Provincia/Pais): ");
+        
+        usuarios[poscUsuario]=new Usuario(nombreCompleto, correoElectronico, telefono, fechaNacimiento, cedula, sexo, residencia, usuario, contrasena);
+        poscUsuario++;
+        return poscUsuario;
 
-        if (residencia.isEmpty()) {
-            h.imprimeMensaje("Digite una residencia");
-            while (true) {
-                residencia = h.recibeString("Digite su lugar de residencia (Formato: Canton/Provincia/Pais): ");
-                if (residencia == null || residencia.trim().isEmpty()) {
-                    h.imprimeMensaje("Debe ingresar el lugar de residencia.");
-                } else if (validarFormatoResidencia(residencia)) {
-
-                    break;
-                } else {
-                    h.imprimeMensaje("Formato de residencia incorrecto. Vuelva a intentarlo.");
-
-                }
-
-            }
-        }
-        //Escritura de los datos en .txt
-        String[] inputs = new String[8];
-
-        inputs[0] = "Nombre Completo: " + nombreCompleto;
-        inputs[1] = "Correo Electronico: " + correoElectronico;
-        inputs[2] = "Fecha de Nacimiento: " + fechaNacimiento;
-        inputs[3] = "Genero: " + sexo;
-        inputs[4] = "Usuario: " + usuario;
-        inputs[5] = "Contrasena: " + contrasena;
-        inputs[6] = "Telefono: " + telefono;
-        inputs[7] = "Lugar de Residencia: " + residencia;
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(NOMBRE_ARCHIVO))) {
-            for (String dato : inputs) {
-                writer.write(dato);
-                writer.newLine(); // Agregar un salto de línea después de cada input
-            }
-            h.imprimeMensaje("Datos guardados correctamente en " + NOMBRE_ARCHIVO);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error al escribir en el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        
+        
+       
+    
     }
-
 // Validar Formato de la Fecha
+
     public static boolean validarFormatoFecha(String fecha) {
         // Expresión regular para el formato de fecha "Día/Fecha/Año"
         String regex = "^\\d{1,2}/\\d{1,2}/\\d{4}$";
@@ -285,11 +304,6 @@ public class Usuario {
         return true;
     }
 
-    public static boolean validarFormatoTelefono(int telefono) {
-        // Asegúrate de que el número de teléfono tenga exactamente 8 dígitos
-        String telefonoStr = String.valueOf(telefono);
-        return telefonoStr.length() == 8;
-    }
 
     public static boolean validarFormatoResidencia(String residencia) {
         // Verifica que la residencia tenga el formato correcto (Canton/Provincia/Pais)
@@ -297,51 +311,11 @@ public class Usuario {
         return partes.length == 3;
     }
 
-    public void inicioSesion() {
-        String usuarioIngresado = h.recibeString("Ingrese su nombre de usuario: ");
-        String contrasenaIngresada = h.recibeString("Ingrese su contraseña: ");
-        boolean usuarioValido = false;
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(NOMBRE_ARCHIVO))) {
-            String linea;
-            while ((linea = reader.readLine()) != null) {
-                String[] datos = linea.split(": ");
-                if (datos.length == 2) {
-                    String nombreDato = datos[0];
-                    String valorDato = datos[1];
-                    if (nombreDato.equals("Usuario") && valorDato.equals(usuarioIngresado)) {
-                        usuarioValido = true;
-                    }
-                    if (nombreDato.equals("Contrasena") && valorDato.equals(contrasenaIngresada)) {
-                        if (usuarioValido) {
-                            h.imprimeMensaje("Inicio de sesión exitoso.");
-                             
-                            //A partir de aqui esta la opcion de eliminar los datos del usuario ya registrado (PEQUEÑA PRUEBA.......)
-                            char decision = h.recibeString("Eliminar Datos del Usuario\nS. Si\nN. No").toUpperCase().charAt(0);
-                            if (decision == 'S') {
-                                try {
-                                    FileWriter archivoVacio = new FileWriter(NOMBRE_ARCHIVO);
-                                    archivoVacio.write("");
-
-                                    archivoVacio.close();
-
-                                    JOptionPane.showMessageDialog(null, "Datos borrados correctamente", "Borrado", JOptionPane.INFORMATION_MESSAGE);
-
-                                } catch (IOException e) {
-                                    JOptionPane.showMessageDialog(null, "Error al intentar borrar los datos", "Error", JOptionPane.ERROR_MESSAGE);
-
-                                }
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(null, "El nombre de usuario es correcto, pero la contraseña es incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                        return;
-                    }
-                }
-            }
-            JOptionPane.showMessageDialog(null, "Nombre de usuario y/o contraseña incorrectos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error al leer el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+    public Usuario[] generarListaUsuarios(){
+        helper h = new helper();
+        int tamano = h.recibeInt("Digite la cantidad de usuarios que desea agregar: ");
+        Usuario usuarios[] = new Usuario[tamano];
+        return usuarios;
     }
+    
 }

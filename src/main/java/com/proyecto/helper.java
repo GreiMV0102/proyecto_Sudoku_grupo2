@@ -1,5 +1,6 @@
 package com.proyecto;
 
+import java.awt.TextArea;
 import javax.swing.JOptionPane;
 
 public class helper {
@@ -15,5 +16,11 @@ public class helper {
     public void imprimeMensaje(String mensaje){
         JOptionPane.showMessageDialog(null, mensaje);
     }
-    
+    public void imprimeMensaje(TextArea mensaje){
+        JOptionPane.showMessageDialog(null, mensaje);
+        
+        
+    }
+
+            
 }
