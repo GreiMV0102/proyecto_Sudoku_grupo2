@@ -20,6 +20,18 @@ public class Usuario {
     private int telefono;
     private String residencia;
 
+    public Usuario(String nombreCompleto, String correoElectronico, String fechaNacimiento, String sexo, String cedula, String usuario, String contrasena, int telefono, String residencia) {
+        this.nombreCompleto = nombreCompleto;
+        this.correoElectronico = correoElectronico;
+        this.fechaNacimiento = fechaNacimiento;
+        this.sexo = sexo;
+        this.cedula = cedula;
+        this.usuario = usuario;
+        this.contrasena = contrasena;
+        this.telefono = telefono;
+        this.residencia = residencia;
+    }
+
     helper h = new helper();
 
     public Usuario() {
@@ -35,9 +47,7 @@ public class Usuario {
 
     }
 
-    private Usuario(String nombreCompleto, String correoElectronico, int telefono, String fechaNacimiento, String cedula, String sexo, String residencia, String usuario, String contrasena) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
 
     public String getNombreCompleto() {
         return nombreCompleto;
@@ -182,14 +192,16 @@ public class Usuario {
 
                 case 'B':
                     if (listaUsuario) {
-                      if (poscUsuario < usuarios.length)  {
-                      poscUsuario = U.agregarUsuario(usuarios, poscUsuario);
-                      h.imprimeMensaje("Usuario Agregado con Exito.");
-                    }else
-                          h.imprimeMensaje("La lista de Usuarios se encuentra llena.");
-                          
-                    }else
+                        if (poscUsuario < usuarios.length) {
+                            U.agregarUsuario(usuarios);
+                            h.imprimeMensaje("Usuario Agregado con Exito.");
+                        } else {
+                            h.imprimeMensaje("La lista de Usuarios se encuentra llena.");
+                        }
+
+                    } else {
                         h.imprimeMensaje("Debe generar primero la lista de Usuarios.");
+                    }
                     break;
 
                 case 'C':
@@ -217,9 +229,8 @@ public class Usuario {
         } while (opcion != 'S');
     }
 
-    public int agregarUsuario(Usuario usuarios[], int poscUsuario) {
-        
-        
+    public void agregarUsuario(Usuario usuarios[]) {
+
         nombreCompleto = h.recibeString("Digite su nombre: ");
         while (nombreCompleto.isEmpty()) {
             nombreCompleto = h.recibeString("Digite su nombre: ");
@@ -265,17 +276,23 @@ public class Usuario {
         while (contrasena.isEmpty()) {
             contrasena = h.recibeString("Digite su contrasena: ");
         }
-        
-        residencia = h.recibeString("Digite su lugar de residencia(Formato: Canton/Provincia/Pais): ");
-        
-        usuarios[poscUsuario]=new Usuario(nombreCompleto, correoElectronico, telefono, fechaNacimiento, cedula, sexo, residencia, usuario, contrasena);
-        poscUsuario++;
-        return poscUsuario;
 
+        residencia = h.recibeString("Digite su lugar de residencia(Formato: Canton/Provincia/Pais): ");
+        int index = -1;
+        for (int i = 0; i < usuarios.length; i++) {
+            if (usuarios[i] == null) {
+                index = i;
+                break;
+            }
+            
+        }
         
+        if (index != -1){
+            usuarios[index] = new Usuario( nombreCompleto,  correoElectronico,  fechaNacimiento,  sexo,  cedula,  usuario,  contrasena,  telefono,  residencia);
+        }else{
+            h.imprimeMensaje("No hay espacios disponibles para nuevos usuarios");
+        }    
         
-       
-    
     }
 // Validar Formato de la Fecha
 
@@ -304,18 +321,17 @@ public class Usuario {
         return true;
     }
 
-
     public static boolean validarFormatoResidencia(String residencia) {
         // Verifica que la residencia tenga el formato correcto (Canton/Provincia/Pais)
         String[] partes = residencia.split("/");
         return partes.length == 3;
     }
 
-    public Usuario[] generarListaUsuarios(){
+    public Usuario[] generarListaUsuarios() {
         helper h = new helper();
         int tamano = h.recibeInt("Digite la cantidad de usuarios que desea agregar: ");
         Usuario usuarios[] = new Usuario[tamano];
         return usuarios;
     }
-    
+
 }
