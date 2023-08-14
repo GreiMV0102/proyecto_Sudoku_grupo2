@@ -193,10 +193,19 @@ public class Usuario {
                     break;
 
                 case 'C':
-
+                    if (poscUsuario == 0) {
+                        h.imprimeMensaje("Debe agregar un cliente primero!");
+                    } else {
+                        U.modificarUsuario(usuarios, poscUsuario);
+                    }
                     break;
 
                 case 'D':
+                    if (poscUsuario == 0) {
+                        h.imprimeMensaje("Debe agregar un cliente primero!");
+                    } else {
+                        poscUsuario = U.eliminarUsuario(usuarios, poscUsuario);
+                    }
 
                     break;
                 case 'E':
@@ -276,6 +285,83 @@ public class Usuario {
         
        
     
+    }
+    
+    public int obtenerPosicionUsuario(Usuario usuarios[], int poscUsuario, String accion){
+        helper h = new helper();
+        
+        String buscarNombre = h.recibeString("Digite el nombre del cliente que desea " +accion+ ":");
+        int poscUusarioBuscado = -1;
+        
+        for(int u = 0; u<poscUsuario; u++){
+            if(buscarNombre.equalsIgnoreCase(usuarios[u].getNombreCompleto()));
+            poscUusarioBuscado = 1;
+            break;
+        }
+        return poscUusarioBuscado;
+        
+    }
+    
+    public void modificarUsuario(Usuario usuarios[], int poscUusario){
+        helper h = new helper();
+        int posU = this.obtenerPosicionUsuario(usuarios, poscUusario, "Modificar");
+        
+        if(posU == -1){
+            h.imprimeMensaje("No se encontraron coincidencias por el nombre ingresado");
+        }else{
+            char opcion = 'S';
+            do {
+                opcion = h.recibeString("Seleccione el dato que desea modificar:"
+                        + "\nA. Nombre completo"
+                        + "\nB. Correo"
+                        + "\nC. Telefono"
+                        + "\nD. Residencia"
+                        + "\nE. Nombre de Usuario"
+                        + "\nS. Salir").toUpperCase().charAt(0);
+                switch (opcion) {
+                    case 'A':
+                        usuarios[posU].setNombreCompleto(h.recibeString("Digite el nuevo nombre del usuario:"));
+                        break;
+                    case 'B':
+                        usuarios[posU].setCorreoElectronico(h.recibeString("Digite el nuevo correo del usuario:"));
+                        break;
+                    case 'C':
+                        usuarios[posU].setTelefono(h.recibeInt("Digite el nuevo teléfono del usuario:"));
+                        break;
+                    case 'D':
+                        usuarios[posU].setResidencia(h.recibeString("Digite la nueva residencia del usuario:"));
+                        break;
+                    case 'E':
+                        usuarios[posU].setUsuario(h.recibeString("Digite el nuevo nombre de usuario:"));
+                        break;
+                    case 'S':
+                        h.imprimeMensaje("Datos modificados correctamente");
+                        break;
+                    default:
+                        h.imprimeMensaje("Opción seleccionada incorrecta");
+                        break;
+
+                }
+            } while (opcion != 'S');
+        }
+    }
+    
+    public int eliminarUsuario(Usuario usuarios[], int poscUsuario){
+        helper h = new helper();
+        int posc = this.obtenerPosicionUsuario(usuarios, poscUsuario, "Eliminar");
+        if (posc == -1) {
+            h.imprimeMensaje("No se encontraron coincidencias con el nombre digitado");
+        } else {
+            for (int i = posc; i < poscUsuario - 1; i++) {
+                usuarios[i] = usuarios[i + 1];
+            }
+            /*Elimina al cliente seleccionado y retrocede un espacio*/
+            poscUsuario--;
+            usuarios[poscUsuario] = null;
+            h.imprimeMensaje("El cliente se eliminó de forma correcta");
+        }
+        return poscUsuario;
+        
     }
 // Validar Formato de la Fecha
 
