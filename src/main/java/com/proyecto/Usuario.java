@@ -19,6 +19,8 @@ public class Usuario {
     private String contrasena;
     private int telefono;
     private String residencia;
+    
+    MenuPrincipal menu;
 
     public Usuario(String nombreCompleto, String correoElectronico, String fechaNacimiento, String sexo, String cedula, String usuario, String contrasena, int telefono, String residencia) {
         this.nombreCompleto = nombreCompleto;
@@ -126,119 +128,7 @@ public class Usuario {
         return nombreCompleto + "\t" + correoElectronico + "\t" + fechaNacimiento + "\t" + sexo + "\t" + cedula + "\t" + usuario + "\t" + contrasena + "\t" + telefono + "\t" + residencia;
     }
 
-    //Nuevo metodo de menu.
-    public void menu() {
-
-        char opcion = ' ';
-
-        do {
-
-            //Generacion del menu de opciones principal.        
-            opcion = h.recibeChar("*****BIENVENIDO*****"
-                    + "\nA. Creacion y Modificacion de Usuarios"
-                    + "\nB. Jugar"
-                    + "\nC. Reportes"
-                    + "\nS. Salir");
-
-            //Case Switch de la primera opcion de registro.
-            switch (opcion) {
-
-                case 'A':
-                    h.imprimeMensaje("*****Bienvenido a Sudoku!*****");
-                    this.menuUsuario();
-                    break;
-                case 'B':
-
-                    break;
-
-                case 'C':
-                    Juego sudoku = new Juego();
-                    sudoku.mostrarSudoku();
-                    break;
-
-            }
-
-        } while (opcion != 'S');
-
-    }
-
-    //Metodo de Registro
-    public void menuUsuario() {
-        Usuario usuarios[] = new Usuario[0];
-        int poscUsuario = 0;
-        Usuario U = new Usuario();
-        boolean listaUsuario = false;
-        char opcion = ' ';
-
-        do {
-
-            opcion = h.recibeChar("*****BIENVENIDO*****"
-                    + "\nA. Generar lista de Usuarios"
-                    + "\nB. Agregar Usuario"
-                    + "\nC. Modificar Usuario"
-                    + "\nD. Eliminar Usuario"
-                    + "\nE. Buscar Usuario"
-                    + "\nF. Listar Usuario"
-                    + "\nG. Ver Juegos"//Tentativo
-
-                    + "\nS. Volver");
-
-            switch (opcion) {
-
-                case 'A':
-                    usuarios = U.generarListaUsuarios();
-                    listaUsuario = true;
-                    break;
-
-                case 'B':
-                    if (listaUsuario) {
-                        if (poscUsuario < usuarios.length) {
-                            U.agregarUsuario(usuarios);
-                            h.imprimeMensaje("Usuario Agregado con Exito.");
-                        } else {
-                            h.imprimeMensaje("La lista de Usuarios se encuentra llena.");
-                        }
-
-                    } else {
-                        h.imprimeMensaje("Debe generar primero la lista de Usuarios.");
-                    }
-                    break;
-
-                case 'C':
-                    if (poscUsuario == 0) {
-                        h.imprimeMensaje("Debe agregar un cliente primero!");
-                    } else {
-                        U.modificarUsuario(usuarios, poscUsuario);
-                    }
-                    break;
-
-                case 'D':
-                    if (poscUsuario == 0) {
-                        h.imprimeMensaje("Debe agregar un cliente primero!");
-                    } else {
-                        poscUsuario = U.eliminarUsuario(usuarios, poscUsuario);
-                    }
-
-                    break;
-                case 'E':
-
-                    break;
-
-                case 'F':
-
-                    break;
-                case 'G':
-
-                    break;
-                case 'S':
-
-                    break;
-            }
-
-        } while (opcion != 'S');
-    }
-
-    public void agregarUsuario(Usuario usuarios[]) {
+   public void agregarUsuario(Usuario usuarios[]) {
 
         nombreCompleto = h.recibeString("Digite su nombre: ");
         while (nombreCompleto.isEmpty()) {
@@ -308,14 +198,14 @@ public class Usuario {
         helper h = new helper();
         
         String buscarNombre = h.recibeString("Digite el nombre del cliente que desea " +accion+ ":");
-        int poscUusarioBuscado = -1;
+        int poscUsuarioBuscado = -1;
         
         for(int u = 0; u<poscUsuario; u++){
             if(buscarNombre.equalsIgnoreCase(usuarios[u].getNombreCompleto()));
-            poscUusarioBuscado = 1;
+            poscUsuarioBuscado = 1;
             break;
         }
-        return poscUusarioBuscado;
+        return poscUsuarioBuscado;
         
     }
     

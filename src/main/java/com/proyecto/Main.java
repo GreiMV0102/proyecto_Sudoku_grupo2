@@ -15,8 +15,8 @@ public class Main {
      */
     public static void main(String[] args) {
        
-        Usuario clseMenu = new Usuario();
-        clseMenu.menu();
+        MenuPrincipal clseMenu = new MenuPrincipal();
+        clseMenu.menuPrincipalJuego();
         
         
        
