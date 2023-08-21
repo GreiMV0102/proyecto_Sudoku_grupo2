@@ -90,7 +90,7 @@ public class MenuPrincipal {
                     if (poscUsuario == 0) {
                         h.imprimeMensaje("Debe agregar un cliente primero!");
                     } else {
-                        U.modificarUsuario(usuarios, poscUsuario);
+                        
                     }
                     break;
 
@@ -98,7 +98,7 @@ public class MenuPrincipal {
                     if (poscUsuario == 0) {
                         h.imprimeMensaje("Debe agregar un cliente primero!");
                     } else {
-                        poscUsuario = U.eliminarUsuario(usuarios, poscUsuario);
+                        
                     }
 
                     break;
