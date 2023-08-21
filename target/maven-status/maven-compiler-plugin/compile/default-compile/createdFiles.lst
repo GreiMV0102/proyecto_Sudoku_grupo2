@@ -1,6 +1,7 @@
 com\proyecto\TiempoJuego.class
 com\proyecto\helper.class
 com\proyecto\Main.class
-com\proyecto\Usuario.class
 com\proyecto\Juego.class
+com\proyecto\MenuPrincipal.class
+com\proyecto\Usuario.class
 com\proyecto\Nivel.class
