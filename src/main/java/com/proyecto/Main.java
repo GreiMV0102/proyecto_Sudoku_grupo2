@@ -18,7 +18,7 @@ public class Main {
     public static void main(String[] args) {
        
         Usuario u = new Usuario();
-        helper h = new helper();
+        Helper h = new Helper();
         int opcion = -1;
 
         while (opcion != 0) {
