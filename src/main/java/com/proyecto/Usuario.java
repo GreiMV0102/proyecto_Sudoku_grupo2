@@ -1,14 +1,20 @@
 package com.proyecto;
 
 import javax.swing.JOptionPane;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.*;
 
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author isaac
+ */
 public class Usuario {
+
+    private static Usuario[] usuarios = new Usuario[100];
+    private static int cantidadUsuarios = 0;
+    private static final int capacidadMaxima = 100;
 
     private String nombreCompleto;
     private String correoElectronico;
@@ -19,8 +25,6 @@ public class Usuario {
     private String contrasena;
     private int telefono;
     private String residencia;
-    
-    MenuPrincipal menu;
 
     public Usuario(String nombreCompleto, String correoElectronico, String fechaNacimiento, String sexo, String cedula, String usuario, String contrasena, int telefono, String residencia) {
         this.nombreCompleto = nombreCompleto;
@@ -47,9 +51,9 @@ public class Usuario {
         this.residencia = residencia;
         this.contrasena = contrasena;
 
+        pedirDatos();
+        agregarUsuario(this);
     }
-
-    
 
     public String getNombreCompleto() {
         return nombreCompleto;
@@ -128,110 +132,138 @@ public class Usuario {
         return nombreCompleto + "\t" + correoElectronico + "\t" + fechaNacimiento + "\t" + sexo + "\t" + cedula + "\t" + usuario + "\t" + contrasena + "\t" + telefono + "\t" + residencia;
     }
 
-   public void agregarUsuario(Usuario usuarios[]) {
 
-        nombreCompleto = h.recibeString("Digite su nombre: ");
-        while (nombreCompleto.isEmpty()) {
-            nombreCompleto = h.recibeString("Digite su nombre: ");
-        }
+    private void pedirDatos() {
+        nombreCompleto = h.recibeString("Nombre completo:");
+        correoElectronico = h.recibeString("Correo electrónico:");
+        fechaNacimiento = h.recibeString("Fecha de nacimiento:");
+        sexo = h.recibeString("Sexo:");
+        cedula = h.recibeString("Cédula:");
+        usuario = h.recibeString("Usuario:");
+        contrasena = h.recibeString("Contraseña:");
+        telefono = (h.recibeInt("Teléfono:"));
+        residencia = JOptionPane.showInputDialog("Residencia:");
+    }
 
-        correoElectronico = h.recibeString("Digite su correo electronico: ");
-        while (correoElectronico.isEmpty()) {
-            correoElectronico = h.recibeString("Digite su correo electronico: ");
+    public void agregarUsuario(Usuario nuevoUsuario) {
+        if (cantidadUsuarios < capacidadMaxima) {
+            usuarios[cantidadUsuarios] = nuevoUsuario;
+            cantidadUsuarios++;
+            JOptionPane.showMessageDialog(null, "Usuario agregado con éxito.");
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pueden agregar más usuarios, capacidad máxima alcanzada.");
         }
-        fechaNacimiento = h.recibeString("Ingrese su fecha de nacimiento(Formato: Dia/Mes/Anio: ");
-        // Mientras la fecha de nacimiento esté vacía o no cumpla con el formato correcto, seguir solicitándola
-        while (fechaNacimiento.isEmpty() || !validarFormatoFecha(fechaNacimiento)) {
-            fechaNacimiento = h.recibeString("Fecha de nacimiento inválida. Ingrese su fecha de nacimiento (Formato: Día/Fecha/Año): ");
-        }
-        sexo = h.recibeString("Genero"
-                + "                         \n F"
-                + "                         \n M");
-        // Mientras el género ingresado no sea "F" o "M", seguir solicitándolo
-        while (sexo == null || (!sexo.equalsIgnoreCase("F") && !sexo.equalsIgnoreCase("M"))) {
-            h.imprimeMensaje("Género inválido. Debe ingresar 'F' o 'M'.");
-            sexo = h.recibeString("Género: \n F \n M");
-        }
-        while (true) {
-            cedula = h.recibeString("Digite su numero de cedula (Incluyendo los ceros: XXXXXXXXX):");
-            if (validarFormatoCedula(cedula)) {
-                break;
-            } else {
-                h.imprimeMensaje("Formato de cedula incorrecto. Vuelva a intentarlo.");
-            }
-        }
+    }
 
-        usuario = h.recibeString("Digite su nombre de usuario: ");
-        while (usuario.isEmpty()) {
-            usuario = h.recibeString("Digite su usuario: ");
-        }
+    public void editarUsuario(){
+        String nuevoValor = JOptionPane.showInputDialog("Ingrese el nuevo valor:");
 
-        contrasena = h.recibeString("Digite una contrasena: ");
-        while (contrasena.isEmpty()) {
-            contrasena = h.recibeString("Digite su contrasena: ");
-        }
+        if (nuevoValor != null && !nuevoValor.isEmpty()) {
+            
+            String campoEditar = JOptionPane.showInputDialog(
+                "Seleccione el campo a editar:\n" +
+                "1. Nombre completo\n" +
+                "2. Correo electrónico\n" +
+                "3. Fecha de nacimiento\n" +
+                "4. Sexo\n" +
+                "5. Cédula\n" +
+                "6. Contraseña\n" +
+                "7. Teléfono\n" +
+                "8. Residencia"
+            );
 
-        telefono = h.recibeInt("Digite su numero de telefono: ");
-        while (contrasena.isEmpty()) {
-            contrasena = h.recibeString("Digite su contrasena: ");
-        }
-
-        residencia = h.recibeString("Digite su lugar de residencia(Formato: Canton/Provincia/Pais): ");
-        int index = -1;
-        for (int i = 0; i < usuarios.length; i++) {
-            if (usuarios[i] == null) {
-                index = i;
-                break;
+            switch (campoEditar) {
+                case "1":
+                    nombreCompleto = nuevoValor;
+                    break;
+                case "2":
+                    correoElectronico = nuevoValor;
+                    break;
+                case "3":
+                    fechaNacimiento = nuevoValor;
+                    break;
+                case "4":
+                    sexo = nuevoValor;
+                    break;
+                case "5":
+                    cedula = nuevoValor;
+                    break;
+                case "6":
+                    contrasena = nuevoValor;
+                    break;
+                case "7":
+                    telefono = Integer.parseInt(nuevoValor);
+                    break;
+                case "8":
+                    residencia = nuevoValor;
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Opción inválida.");
             }
             
+            JOptionPane.showMessageDialog(null, "Campo editado exitosamente.");
+        } else {
+            JOptionPane.showMessageDialog(null, "El valor no puede estar vacío.");
         }
-        
-        if (index != -1){
-            usuarios[index] = new Usuario( nombreCompleto,  correoElectronico,  fechaNacimiento,  sexo,  cedula,  usuario,  contrasena,  telefono,  residencia);
-        }else{
-            h.imprimeMensaje("No hay espacios disponibles para nuevos usuarios");
-        }    
-        
-    }
-    
-// Validar Formato de la Fecha
-
-    public static boolean validarFormatoFecha(String fecha) {
-        // Expresión regular para el formato de fecha "Día/Fecha/Año"
-        String regex = "^\\d{1,2}/\\d{1,2}/\\d{4}$";
-
-        // Verificar si la fecha coincide con el formato
-        return fecha.matches(regex);
     }
 
-    public static boolean validarFormatoCedula(String cedula) {
-        // Asegúrate de que la cedula tenga exactamente 9 caracteres
-        if (cedula == null || cedula.length() != 9) {
-            return false;
-        }
+    public static void mostrarUsuarios(Usuario[] usuarios) {
+        String usuariosInfo = "";
 
-        // Verifica que todos los caracteres sean dígitos numéricos
-        for (int i = 0; i < 9; i++) {
-            char ch = cedula.charAt(i);
-            if (!Character.isDigit(ch)) {
-                return false;
+        for (int i = 0; i < cantidadUsuarios; i++) {
+            if (usuarios[i] != null) {
+                usuariosInfo += "Usuario " + (i + 1) + ":\n";
+                usuariosInfo += usuarios[i].toString() + "\t\t";
             }
         }
 
-        return true;
+        JOptionPane.showMessageDialog(null, usuariosInfo, "Usuarios Registrados", JOptionPane.PLAIN_MESSAGE);
     }
+        
+ 
+       public static void eliminarUsuario(Usuario[] usuarios) {
+        String usuarioAEliminar = JOptionPane.showInputDialog("Ingrese el usuario que desea eliminar:");
 
-    public static boolean validarFormatoResidencia(String residencia) {
-        // Verifica que la residencia tenga el formato correcto (Canton/Provincia/Pais)
-        String[] partes = residencia.split("/");
-        return partes.length == 3;
+        for (int i = 0; i < cantidadUsuarios; i++) {
+            if (usuarios[i] != null && usuarios[i].getUsuario().equals(usuarioAEliminar)) {
+                usuarios[i] = null;
+                JOptionPane.showMessageDialog(null, "Usuario eliminado exitosamente.");
+                return;
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
     }
+        
+    
+    public void administrarUsuario() {
+        int opcion = -1;
 
-    public Usuario[] generarListaUsuarios() {
-        helper h = new helper();
-        int tamano = h.recibeInt("Digite la cantidad de usuarios que desea agregar: ");
-        Usuario usuarios[] = new Usuario[tamano];
-        return usuarios;
+        while (opcion != 3) {
+            String input = JOptionPane.showInputDialog(
+                "Seleccione una opción:\n" +
+                "1. Editar Usuario\n" +
+                "2. Eliminar Usuario\n" +
+                "3. Mostrar Usuarios\n"
+               +"4. Volver al menu");
+
+            opcion = Integer.parseInt(input);
+
+            switch (opcion) {
+                case 1:
+                    this.editarUsuario();
+                    break;
+                case 2:
+                    this.eliminarUsuario(usuarios);
+                    break;
+                case 3:
+                    this.mostrarUsuarios(usuarios);
+                    break;
+                case 4:
+                    
+                default:
+                    JOptionPane.showMessageDialog(null, "Opción inválida.");
+            }
+        }
     }
-
 }
