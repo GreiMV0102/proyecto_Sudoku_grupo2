@@ -16,7 +16,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       
+        Juego J = new Juego();
         Usuario u = new Usuario();
         helper h = new helper();
         int opcion = -1;
@@ -36,7 +36,7 @@ public class Main {
                     new Usuario();
                     break;
                 case 2:
-                    // Lógica para jugar Sudoku
+                    new Juego();
                     break;
                 case 3:
                     u.administrarUsuario();

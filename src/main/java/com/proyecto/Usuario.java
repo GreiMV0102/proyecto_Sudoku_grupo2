@@ -212,7 +212,7 @@ public class Usuario {
 
         for (int i = 0; i < cantidadUsuarios; i++) {
             if (usuarios[i] != null) {
-                usuariosInfo += "Usuario " + (i + 1) + ":\n";
+                usuariosInfo += "Usuario " + (i + 1) + ":\t";
                 usuariosInfo += usuarios[i].toString() + "\t\t";
             }
         }

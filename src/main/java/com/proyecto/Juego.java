@@ -4,6 +4,7 @@ package com.proyecto;
 
 public class Juego {
 
+    
      private int sudoku [][];
      
      public Juego(){
