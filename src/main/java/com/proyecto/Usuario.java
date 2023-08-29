@@ -38,7 +38,7 @@ public class Usuario {
         this.residencia = residencia;
     }
 
-    helper h = new helper();
+    Helper h = new Helper();
 
     public Usuario() {
         this.nombreCompleto = nombreCompleto;
